@@ -19,38 +19,46 @@ const InputsContainer = styled.div`
 `
 
 function App() {
-  const [tarefas, setTarefa] = useState([]);
+  const [tarefas, setTarefas] = useState([]);
   const [inputValue, setInputValue] = useState("");
   const [filtro, setFiltro] = useState("")
 
-  // useEffect() => {
-  //   () => {
+  useEffect(()=>{
+    tarefas.length > 0 &&
+    localStorage.setItem('tarefa', JSON.stringify(tarefas))}, [tarefas])
 
-  //   },
-  //   []
-  // };
 
-  // useEffect() => {
-  //   () => {
+  useEffect(()=>{setTarefas(JSON.parse(localStorage.getItem('tarefa')))}, [])
 
-  //   },
-  //   []
-  // };
+
 
   const onChangeInput = (event) => {
-    console.log("aaa");
+   setInputValue(event.target.value)
   }
 
   const criaTarefa = () => {
-    console.log("aaa");
+    const novaTarefa = {
+      id: Date.now(),
+      texto: inputValue,
+      completa: false,
+    }
+    const tarefaAdicionada = [...tarefas, novaTarefa]
+    setTarefas(tarefaAdicionada)
+    setInputValue('')
   }
 
   const selectTarefa = (id) => {
-    console.log("aaa");
+const novaLista = tarefas.map((item)=>{
+  if(id === item.id){
+    const novoItem = {...item, completa: !item.completa}
+    return novoItem
+  }else{ return item}
+})
+setTarefas(novaLista)
   }
 
   const onChangeFilter = (event) => {
-    console.log("aaa");
+    setFiltro(event.target.value)
   }
 
 
